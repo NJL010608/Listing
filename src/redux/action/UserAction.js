@@ -8,17 +8,19 @@ export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
 
-export const DELETE_USER_SUCCESS = 'UPDATE_USER_FAILURE';
+export const DELETE_USER_REQUEST = 'DELETE_USER_REQUEST';
+export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
+export const DELETE_USER_FAILURE = 'DELETE_USER_FAILURE';
 
 //GET
 export const fetchUsersRequest = () => ({
   type: FETCH_USERS_REQUEST,
 });
-export const fetchUsersSuccess = (users: any) => ({
+export const fetchUsersSuccess = (users) => ({
   type: FETCH_USERS_SUCCESS,
   payload: users,
 });
-export const fetchUsersFailure = (error: any) => ({
+export const fetchUsersFailure = (error) => ({
   type: FETCH_USERS_FAILURE,
   payload: error,
 });
@@ -27,27 +29,39 @@ export const fetchUsersFailure = (error: any) => ({
 export const updateUserRequest = () => ({
   type: UPDATE_USER_REQUEST,
 });
-export const updateUserSuccess = (user: any) => ({
+export const updateUserSuccess = (user) => ({
   type: UPDATE_USER_SUCCESS,
   payload: user,
 });
-export const updateUserFailure = (error: any) => ({
+export const updateUserFailure = (error) => ({
   type: UPDATE_USER_FAILURE,
   payload: error,
 });
-export const deleteUserSuccess = (user: any) => ({
+
+//DELETE
+export const deleteUserRequest = () => ({
+  type: DELETE_USER_REQUEST,
+});
+
+export const deleteUserSuccess = (user) => ({
   type: DELETE_USER_SUCCESS,
   payload: user,
 });
 
-export const fetchUsers = () => async (dispatch: any) => {
+export const deleteUserFailure = (error) => ({
+  type: DELETE_USER_FAILURE,
+  payload: error,
+});
+
+/*
+export const fetchUsers = () => async (dispatch) => {
   dispatch({ type: FETCH_USERS_REQUEST });
   try {
     const response = await fetch('https://randomuser.me/api/?results=50');
     const data = await response.json();
     dispatch({ type: FETCH_USERS_SUCCESS, payload: data.results });
-  } catch (error:any) {
+  } catch (error) {
     dispatch({ type: FETCH_USERS_FAILURE, payload: error.message });
   }
 };
-
+*/

@@ -1,21 +1,26 @@
 import { combineReducers } from 'redux';
-import { UserState } from './UserInterface';
-import { FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, DELETE_USER_SUCCESS } from '../action/UserAction';
+import { FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, DELETE_USER_SUCCESS, DELETE_USER_REQUEST, DELETE_USER_FAILURE } from '../action/UserAction';
 
 
-const initialState: UserState = {
+const initialState = {
   loading: false,
   users: [],
   error: '',
 };
 
-const userReducer = (state = initialState, action: any) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USERS_REQUEST:
     case UPDATE_USER_REQUEST:
       return {
         ...state,
         loading: true,
+      };
+    case DELETE_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
       };
     case FETCH_USERS_SUCCESS:
       return {
@@ -34,7 +39,7 @@ const userReducer = (state = initialState, action: any) => {
         return {
           ...state,
           loading: false,
-          users: state.users.map((user: any) =>
+          users: state.users.map((user) =>
             user.id === action.payload.id ? action.payload : user
           ),
           error: '',
@@ -42,7 +47,14 @@ const userReducer = (state = initialState, action: any) => {
         case DELETE_USER_SUCCESS:
           return {
             ...state,
-            users: state.users.filter((user: any) => user.uuid !== action.payload),
+            loading: false,
+            users: state.users.filter(user => user.id !== action.payload),
+          };
+        case DELETE_USER_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            error: action.payload,
           };
 
     default:
