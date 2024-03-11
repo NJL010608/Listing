@@ -25,3 +25,4 @@ yarn-error.log*
 /public/logo192.png
 /public/logo512.png
 /src/react-app-env.d.ts
+/src/redux/reducer/UserInterface.js

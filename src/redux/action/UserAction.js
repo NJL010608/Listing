@@ -53,15 +53,3 @@ export const deleteUserFailure = (error) => ({
   payload: error,
 });
 
-/*
-export const fetchUsers = () => async (dispatch) => {
-  dispatch({ type: FETCH_USERS_REQUEST });
-  try {
-    const response = await fetch('https://randomuser.me/api/?results=50');
-    const data = await response.json();
-    dispatch({ type: FETCH_USERS_SUCCESS, payload: data.results });
-  } catch (error) {
-    dispatch({ type: FETCH_USERS_FAILURE, payload: error.message });
-  }
-};
-*/

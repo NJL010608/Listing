@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, DELETE_USER_SUCCESS, DELETE_USER_REQUEST, DELETE_USER_FAILURE } from '../action/UserAction';
 
-
 const initialState = {
   loading: false,
   users: [],
@@ -48,7 +47,7 @@ const userReducer = (state = initialState, action) => {
           return {
             ...state,
             loading: false,
-            users: state.users.filter(user => user.id !== action.payload),
+            users: state.users.filter((user) => user.login.uuid !== action.payload),
           };
         case DELETE_USER_FAILURE:
           return {

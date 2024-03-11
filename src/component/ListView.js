@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUsers, updateUser, deleteUser } from '../redux/api';
-import {  useAppDispatch, useAppSelector } from './hooks';
+import {  useAppDispatch, useAppSelector } from '../hooks';
 import '../css/userTable.scss';
-
 
 const ListView = () => {
   const dispatch = useAppDispatch();
@@ -13,8 +12,7 @@ const ListView = () => {
   const [ascending, setAscending] = useState(true);
   const [editedUser, setEditedUser] = useState(null);
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
-   const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   useEffect(() => {
@@ -70,24 +68,28 @@ const ListView = () => {
   };
   
   const confirmDelete = () => {
-    dispatch(deleteUser(selectedUserIds));
-    setSelectedUserIds([]);
-    setShowDeleteConfirmation(false);
-};
+    if (selectedUserId.length > 0) {
+      selectedUserId.forEach(userId => {
+        dispatch(deleteUser(userId));
+      });
+      setSelectedUserId([]);
+      setShowDeleteConfirmation(false);
+    }
+  };
 
    const handleCheckboxChange = (userId) => {
-    if (selectedUserIds.includes(userId)) {
-      setSelectedUserIds(prevIds => prevIds.filter(id => id !== userId));
+    if (selectedUserId.includes(userId)) {
+      setSelectedUserId(prevIds => prevIds.filter(id => id !== userId));
     } else {
-      setSelectedUserIds(prevIds => [...prevIds, userId]);
+      setSelectedUserId(prevIds => [...prevIds, userId]);
     }
   };
 
   const handleSelectAll = () => {
-    if (selectedUserIds.length === users.length) {
-      setSelectedUserIds([]);
+    if (selectedUserId.length === users.length) {
+      setSelectedUserId([]);
     } else {
-      setSelectedUserIds(users.map((user) => user.login.uuid));
+      setSelectedUserId(users.map((user) => user.login.uuid));
     }
   };
 
@@ -121,7 +123,7 @@ const ListView = () => {
             <th>
               <input
                 type="checkbox"
-                checked={selectedUserIds.length === (users ? users.length : 0)}
+                checked={selectedUserId.length === (users ? users.length : 0)}
                 onChange={handleSelectAll}
               /></th>
             <th>First Name</th>
@@ -137,11 +139,11 @@ const ListView = () => {
               <td>
                 <input
                   type="checkbox"
-                  checked={selectedUserIds.includes(user.login.uuid)}
+                  checked={selectedUserId.includes(user.login.uuid)}
                   onChange={() => handleCheckboxChange(user.login.uuid)}
                 />
               </td>
-              {editedUser && editedUser.id === user.id ? (
+              {editedUser && editedUser.login.uuid === user.login.uuid ? (
             <>
             <td>
               <input
@@ -181,7 +183,7 @@ const ListView = () => {
             </>
           )}
               <td>
-                {editedUser && editedUser.id === user.id ? (
+                {editedUser && editedUser.login.uuid === user.login.uuid ? (
                   <>
                     <button onClick={handleSave}>Save</button>
                     <button onClick={handleCancel}>Cancel</button>

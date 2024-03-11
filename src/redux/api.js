@@ -19,38 +19,22 @@ export const updateUser = (user) => {
   return (dispatch) => {
     dispatch(updateUserRequest());
     try {
-      // Simulate API call delay
-      setTimeout(() => {
-        dispatch(updateUserSuccess(user));
-      }, 1000);
+      dispatch(updateUserSuccess(user));
     } catch (error) {
       dispatch(updateUserFailure(error.message));
   };
 };
 };
 
-export const deleteUser = (userIds) => {
+export const deleteUser = (userId) => {
   return async (dispatch) => {
     try {
       dispatch(deleteUserRequest());
-      dispatch(deleteUserSuccess(userIds));
+      dispatch(deleteUserSuccess(userId));
     } catch (error) {
       console.error('Error deleting user:', error);
       dispatch(deleteUserFailure(error.message));
     }
   };
 };
-
-/*
-export const deleteUser = (user) => {
-  return async (dispatch: any) => {
-    try {
-      // Dispatch an action to update Redux store
-      dispatch(deleteUserSuccess(user));
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  };
-};
-*/
 
