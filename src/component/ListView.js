@@ -1,120 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { fetchUsers, updateUser, deleteUser } from '../redux/api';
-import {  useAppDispatch, useAppSelector } from '../hooks';
+import UserFunction from '../hooks/UserFunction';
 import '../css/userTable.scss';
 
 const ListView = () => {
-  const dispatch = useAppDispatch();
-  const users = useAppSelector((state) => state.UserReducer.users.users);
-  const loading = useAppSelector((state) => state.UserReducer.users.loading);
-  const error = useAppSelector((state) => state.UserReducer.users.error);
-  const [sortedUsers, setSortedUsers] = useState(users);
-  const [ascending, setAscending] = useState(true);
-  const [editedUser, setEditedUser] = useState(null);
-
-  const [selectedUserId, setSelectedUserId] = useState([]);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setSortedUsers(users);
-  }, [users]);
-
-  const handleSort = () => {
-    const newSortedUsers = [...sortedUsers].sort((a, b) => {
-      if (ascending) {
-        return a.name.first.localeCompare(b.name.first);
-      } else {
-        return b.name.first.localeCompare(a.name.first);
-      }
-    });
-    setSortedUsers(newSortedUsers);
-    setAscending(!ascending);
-  };
-
-  const handleEdit = (user) => {
-    setEditedUser({ ...user });
-  };
-
-  const handleInputChange = (e, field) => {
-  const { value } = e.target;
-  setEditedUser((prevUser) => ({
-    ...prevUser,
-    name: {
-      ...prevUser.name,
-      [field]: value
-    },
-    dob: {
-      ...prevUser.dob,
-      [field]: value
-    },
-    location:{
-      ...prevUser.location,
-      [field]: value
-    }
-  }));
-};
-
-  const handleSave = () => {
-    dispatch(updateUser(editedUser));
-    setEditedUser(null); 
-  };
-
-  const handleCancel = () => {
-    setEditedUser(null);
-  };
-  
-  const confirmDelete = () => {
-    if (selectedUserId.length > 0) {
-      selectedUserId.forEach(userId => {
-        dispatch(deleteUser(userId));
-      });
-      setSelectedUserId([]);
-      setShowDeleteConfirmation(false);
-    }
-  };
-
-   const handleCheckboxChange = (userId) => {
-    if (selectedUserId.includes(userId)) {
-      setSelectedUserId(prevIds => prevIds.filter(id => id !== userId));
-    } else {
-      setSelectedUserId(prevIds => [...prevIds, userId]);
-    }
-  };
-
-  const handleSelectAll = () => {
-    if (selectedUserId.length === users.length) {
-      setSelectedUserId([]);
-    } else {
-      setSelectedUserId(users.map((user) => user.login.uuid));
-    }
-  };
-
-  const handleDelete = () => {
-    setShowDeleteConfirmation(true);
-  };
-
-  const cancelDelete = () => {
-    setShowDeleteConfirmation(false);
-  };
+    const {
+    users,
+    loading,
+    error,
+    sortedUsers,
+    ascending,
+    editedUser,
+    selectedUserId,
+    handleSort,
+    handleEdit,
+    handleInputChange,
+    handleSave,
+    handleCancel,
+    handleCheckboxChange,
+    handleSelectAll,
+    handleDelete,
+  } = UserFunction();
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      {showDeleteConfirmation && (
-        <div className="delete-confirmation">
-          <p>Are you sure you want to delete the selected users?</p>
-          <button onClick={confirmDelete}>Yes</button>
-          <button onClick={cancelDelete}>No</button>
-        </div>
-      )}
-      <button className="button button--delete" onClick={handleDelete}>Delete</button>
-      <button className='button button--sort' onClick={handleSort}>
+      <button onClick={handleDelete}>Delete</button>
+      <button onClick={handleSort}>
         {ascending ? 'Ascending' : 'Descending'}
       </button>
       <table>
@@ -149,28 +61,28 @@ const ListView = () => {
               <input
                 type="text"
                 value={editedUser.name.first || ''}
-                onChange={(e) => handleInputChange(e, 'first')}
+                onChange={(e) => handleInputChange(e, 'name' , 'first')}
               />
             </td>
             <td>
               <input
                 type="text"
                 value={editedUser.name.last || ''}
-                onChange={(e) => handleInputChange(e, 'last')}
+                onChange={(e) => handleInputChange(e, 'name', 'last')}
               />
             </td>
             <td>
               <input
-                type="text"
+                type="number"
                 value={editedUser.dob.age || ''}
-                onChange={(e) => handleInputChange(e, 'age')}
+                onChange={(e) => handleInputChange(e, 'dob', 'age')}
               />
               </td>
               <td>
               <input
                 type="text"
                 value={editedUser.location.country || ''}
-                onChange={(e) => handleInputChange(e, 'country')}
+                onChange={(e) => handleInputChange(e, 'location', 'country')}
               />
               </td>
             </>
