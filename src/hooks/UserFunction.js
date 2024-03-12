@@ -12,7 +12,6 @@ const UserFunction = () => {
   const [ascending, setAscending] = useState(true);
   const [editedUser, setEditedUser] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState([]);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -64,7 +63,6 @@ const UserFunction = () => {
         dispatch(deleteUser(userId));
       });
       setSelectedUserId([]);
-      setShowDeleteConfirmation(false);
     }
   };
 
@@ -87,9 +85,7 @@ const UserFunction = () => {
   const handleDelete = () => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm('Are you sure you want to delete the selected user(s)?')) {
-    confirmDelete();
-    } else {
-    setShowDeleteConfirmation(false);
+        confirmDelete();
     }
   };
 
@@ -101,7 +97,6 @@ const UserFunction = () => {
     ascending,
     editedUser,
     selectedUserId,
-    showDeleteConfirmation,
     handleSort,
     handleEdit,
     handleInputChange,
