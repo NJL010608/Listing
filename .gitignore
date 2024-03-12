@@ -26,3 +26,8 @@ yarn-error.log*
 /public/logo512.png
 /src/react-app-env.d.ts
 /src/redux/reducer/UserInterface.js
+/src/component/ListView2.js
+/src/hooks/DeleteData.js
+/src/hooks/FetchData.js
+/src/hooks/SortData.js
+/src/hooks/UpdateData.js

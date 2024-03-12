@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { fetchUsersRequest, fetchUsersSuccess, fetchUsersFailure, updateUserRequest, updateUserSuccess, updateUserFailure, deleteUserSuccess, deleteUserRequest, deleteUserFailure} from './action/UserAction';
 
-
 export const fetchUsers = () => {
   return async (dispatch) => {
     dispatch(fetchUsersRequest());
@@ -13,7 +12,6 @@ export const fetchUsers = () => {
     }
   };
 };
-
 
 export const updateUser = (user) => {
   return (dispatch) => {

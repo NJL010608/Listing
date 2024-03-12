@@ -18,18 +18,13 @@ const UserFunction = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setSortedUsers(users);
-  }, [users]);
-
-    const handleSort = () => {
-    const newSortedUsers = [...sortedUsers].sort((a, b) => {
-      if (ascending) {
-        return a.name.first.localeCompare(b.name.first);
-      } else {
-        return b.name.first.localeCompare(a.name.first);
-      }
+    const sortedUsers = [...users].sort((a, b) => {
+      return ascending ? a.name.first.localeCompare(b.name.first) : b.name.first.localeCompare(a.name.first);
     });
-    setSortedUsers(newSortedUsers);
+    setSortedUsers(sortedUsers);
+  }, [users, ascending]);
+
+  const handleSort = () => {
     setAscending(!ascending);
   };
 

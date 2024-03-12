@@ -39,7 +39,7 @@ const userReducer = (state = initialState, action) => {
           ...state,
           loading: false,
           users: state.users.map((user) =>
-            user.id === action.payload.id ? action.payload : user
+            user.login.uuid === action.payload.login.uuid ? action.payload : user
           ),
           error: '',
         };
