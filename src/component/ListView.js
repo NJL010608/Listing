@@ -7,7 +7,6 @@ const ListView = () => {
     users,
     loading,
     error,
-    sortedUsers,
     ascending,
     editedUser,
     selectedUserId,
@@ -47,7 +46,7 @@ const ListView = () => {
           </tr>
         </thead>
         <tbody>
-          {sortedUsers.map((user) => (
+          {users.map((user) => (
             <tr key={user.login.uuid}>
               <td>
                 <input

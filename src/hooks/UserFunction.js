@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchUsers, updateUser, deleteUser } from '../redux/api';
+import { sortUsers } from '../redux/action/UserAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const UserFunction = () => {
@@ -7,8 +8,6 @@ const UserFunction = () => {
   const users = useSelector((state) => state.UserReducer.users.users);
   const loading = useSelector((state) => state.UserReducer.users.loading);
   const error = useSelector((state) => state.UserReducer.users.error);
-
-  const [sortedUsers, setSortedUsers] = useState(users);
   const [ascending, setAscending] = useState(true);
   const [editedUser, setEditedUser] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState([]);
@@ -17,14 +16,8 @@ const UserFunction = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  useEffect(() => {
-    const sortedUsers = [...users].sort((a, b) => {
-      return ascending ? a.name.first.localeCompare(b.name.first) : b.name.first.localeCompare(a.name.first);
-    });
-    setSortedUsers(sortedUsers);
-  }, [users, ascending]);
-
   const handleSort = () => {
+    dispatch(sortUsers());
     setAscending(!ascending);
   };
 
@@ -88,7 +81,6 @@ const UserFunction = () => {
     users,
     loading,
     error,
-    sortedUsers,
     ascending,
     editedUser,
     selectedUserId,
