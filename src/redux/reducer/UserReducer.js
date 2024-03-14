@@ -4,7 +4,7 @@ import { FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE, UPDATE_U
 const initialState = {
   loading: false,
   users: [],
-  ascending: false,
+  ascending: true,
   error: '',
 };
 
@@ -26,6 +26,7 @@ const userReducer = (state = initialState, action) => {
       return {
         loading: false,
         users: action.payload,
+        ascending: true,
         error: '',
       };
     case FETCH_USERS_FAILURE:
@@ -59,9 +60,9 @@ const userReducer = (state = initialState, action) => {
     case SORT_USERS:
       const sortedUsers = [...state.users].sort((a, b) => {
         if (state.ascending) {
-          return b.name.first.localeCompare(a.name.first);
-        } else {
           return a.name.first.localeCompare(b.name.first);
+        } else {
+          return b.name.first.localeCompare(a.name.first);
         }
       });
       return {

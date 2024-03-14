@@ -8,7 +8,7 @@ const UserFunction = () => {
   const users = useSelector((state) => state.UserReducer.users.users);
   const loading = useSelector((state) => state.UserReducer.users.loading);
   const error = useSelector((state) => state.UserReducer.users.error);
-  const [ascending, setAscending] = useState(true);
+  const ascending = useSelector((state) => state.UserReducer.users.ascending);
   const [editedUser, setEditedUser] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState([]);
 
@@ -18,7 +18,6 @@ const UserFunction = () => {
 
   const handleSort = () => {
     dispatch(sortUsers());
-    setAscending(!ascending);
   };
 
   const handleEdit = (user) => {

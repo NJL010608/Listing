@@ -27,6 +27,15 @@ table{
         padding-left: 10px;
         padding-right: 10px;
     }
+    .message{
+        &--empty{
+            color:red;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+        }
+    }
 }
 
 

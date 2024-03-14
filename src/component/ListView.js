@@ -46,66 +46,72 @@ const ListView = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.login.uuid}>
+          {users.length === 0 ? (
+            <tr>
+              <td  className="message message--empty" colSpan="6">Users is empty.</td>
+            </tr>
+          ) : (
+            users.map((user) => (
+              <tr key={user.login.uuid}>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={selectedUserId.includes(user.login.uuid)}
+                    onChange={() => handleCheckboxChange(user.login.uuid)}
+                  />
+                </td>
+                {editedUser && editedUser.login.uuid === user.login.uuid ? (
+              <>
               <td>
                 <input
-                  type="checkbox"
-                  checked={selectedUserId.includes(user.login.uuid)}
-                  onChange={() => handleCheckboxChange(user.login.uuid)}
+                  type="text"
+                  value={editedUser.name.first || ''}
+                  onChange={(e) => handleInputChange(e, 'name' , 'first')}
                 />
               </td>
-              {editedUser && editedUser.login.uuid === user.login.uuid ? (
-            <>
-            <td>
-              <input
-                type="text"
-                value={editedUser.name.first || ''}
-                onChange={(e) => handleInputChange(e, 'name' , 'first')}
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                value={editedUser.name.last || ''}
-                onChange={(e) => handleInputChange(e, 'name', 'last')}
-              />
-            </td>
-            <td>
-              <input
-                type="number"
-                value={editedUser.dob.age || ''}
-                onChange={(e) => handleInputChange(e, 'dob', 'age')}
-              />
+              <td>
+                <input
+                  type="text"
+                  value={editedUser.name.last || ''}
+                  onChange={(e) => handleInputChange(e, 'name', 'last')}
+                />
               </td>
               <td>
-              <input
-                type="text"
-                value={editedUser.location.country || ''}
-                onChange={(e) => handleInputChange(e, 'location', 'country')}
-              />
-              </td>
-            </>
-          ) : (
-            <>
-              <td>{user.name.first}</td>
-              <td>{user.name.last}</td>
-              <td>{user.dob.age}</td>
-              <td>{user.location.country}</td>
-            </>
+                <input
+                  type="number"
+                  value={editedUser.dob.age || ''}
+                  onChange={(e) => handleInputChange(e, 'dob', 'age')}
+                />
+                </td>
+                <td>
+                <input
+                  type="text"
+                  value={editedUser.location.country || ''}
+                  onChange={(e) => handleInputChange(e, 'location', 'country')}
+                />
+                </td>
+              </>
+            ) : (
+              <>
+                <td>{user.name.first}</td>
+                <td>{user.name.last}</td>
+                <td>{user.dob.age}</td>
+                <td>{user.location.country}</td>
+              </>
+            )}
+                <td>
+                  {editedUser && editedUser.login.uuid === user.login.uuid ? (
+                    <>
+                      <button onClick={handleSave}>Save</button>
+                      <button onClick={handleCancel}>Cancel</button>
+                    </>
+                  ) : (
+                    <button onClick={() => handleEdit(user)}>Edit</button>
+                  )}
+                </td>
+              </tr>
+            ))
           )}
-              <td>
-                {editedUser && editedUser.login.uuid === user.login.uuid ? (
-                  <>
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button>
-                  </>
-                ) : (
-                  <button onClick={() => handleEdit(user)}>Edit</button>
-                )}
-              </td>
-            </tr>
-          ))}
         </tbody>
       </table>
     </div>
