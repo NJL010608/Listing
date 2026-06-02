@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { fetchUsers, updateUser, deleteUser } from '../redux/api';
-import { sortUsers } from '../redux/action/UserAction';
+import { fetchUsers, updateUser, deleteUser, sortUsers} from '../redux/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const UserFunction = () => {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.UserReducer.users.users);
-  const loading = useSelector((state) => state.UserReducer.users.loading);
-  const error = useSelector((state) => state.UserReducer.users.error);
-  const ascending = useSelector((state) => state.UserReducer.users.ascending);
+  const users = useSelector((state) => state.UserReducer.users);
+  const loading = useSelector((state) => state.UserReducer.loading);
+  const error = useSelector((state) => state.UserReducer.error);
+  const ascending = useSelector((state) => state.UserReducer.ascending);
   const [editedUser, setEditedUser] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState([]);
 
